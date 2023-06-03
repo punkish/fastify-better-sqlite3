@@ -5,12 +5,12 @@ Fastify plugin using `better-sqlite3` to connect to a sqlite database.
 ## Install
 
 ```js
-npm install fastify-better-sqlite3
+npm install @punkish/fastify-better-sqlite3
 ```
 
 ## Compatibility
 
-Plugin version: ^1.0.0
+Plugin version: ^1.0.0  
 Fastify version: ^4.x.x
 
 ## Usage
@@ -56,12 +56,31 @@ try {
     //    start-up options are required such as creating a specific db and
     //    setting desired pragmas, etc. Below, a function called 
     //    `dbConnection()` returns a db connection that is passed to the plugin
-    const opts3 = dbConnection();
+    const opts3 = initDb();
 
     //
     // register the plugin
     //
-    fastify.register(fastifyBetterSqlite3, opts);
+    fastify.register(fastifyBetterSqlite3, opts1);
+
+    //
+    // create a route that gets data from the db
+    //
+    fastify.get('/', function (request, reply) {
+        const { dt } = fastify.betterSqlite3
+            .prepare(`SELECT Strftime('%d/%m/%Y %H:%M:%S') AS dt`)
+            .get();
+
+        const { version } = fastify.betterSqlite3
+            .prepare('SELECT sqlite_version() AS version')
+            .get();
+
+        reply.send({
+            'current date': dt,
+            'sqlite version': version
+        });
+    });
+
     await fastify.listen({ port: 3010 });
 }
 catch (err) {
