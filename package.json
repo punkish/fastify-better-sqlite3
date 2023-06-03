@@ -1,0 +1,37 @@
+{
+  "name": "@punkish/fastify-better-sqlite3",
+  "version": "1.0.0",
+  "description": "fasitfy plugin for better-sqlite3",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/punkish/fastify-better-sqlite3.git"
+  },
+  "keywords": [
+    "fastify",
+    "fastify-plugin",
+    "sqlite3",
+    "better-sqlite3",
+    "database"
+  ],
+  "author": "Puneet Kishor",
+  "license": "CC0-1.0",
+  "bugs": {
+    "url": "https://github.com/punkish/fastify-better-sqlite3/issues"
+  },
+  "homepage": "https://github.com/punkish/fastify-better-sqlite3#readme",
+  "dependencies": {
+    "better-sqlite3": "^8.4.0",
+    "fastify-plugin": "^4.5.0"
+  },
+  "devDependencies": {
+    "fastify": "^4.17.0"
+  },
+  "directories": {
+    "test": "test"
+  }
+}

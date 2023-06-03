@@ -19,8 +19,8 @@ Fastify version: ^4.x.x
 import Fastify from 'fastify';
 import fastifyBetterSqlite3 from './plugins/lib/better-sqlite3.js';
 
-// the following is optional, see `opts3` below
-import { dbConnection } from '/path/to/dbConnection.js';
+// the following is optional, see `opts3` below for an example
+import { initDb } from 'path/to/initDb.js';
 
 // fastify options, see fastify documentation
 const fastifyOpts = { … };
