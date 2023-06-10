@@ -37,8 +37,8 @@ try {
     // 2. provide options as below
     const opts2 = {
 
-        // - if db file doesn't exist, it will be created unless
-        //   `betterSqlite3options.fileMustExist: true`
+        // if db file doesn't exist, it will be created unless
+        // `betterSqlite3options.fileMustExist: true`
         path: '/path/to/db.sqlite',
 
         // The following options are passed on to `better-sqlite3`.
@@ -55,7 +55,7 @@ try {
     // 3. provide a ready db connection. This may be desirable if custom 
     //    start-up options are required such as creating a specific db and
     //    setting desired pragmas, etc. Below, a function called 
-    //    `dbConnection()` returns a db connection that is passed to the plugin
+    //    `initDb()` returns a db connection that is passed to the plugin
     const opts3 = initDb();
 
     //
