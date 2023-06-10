@@ -1,6 +1,6 @@
 {
   "name": "@punkish/fastify-better-sqlite3",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "fasitfy plugin for better-sqlite3",
   "type": "module",
   "main": "index.js",
