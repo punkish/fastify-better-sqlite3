@@ -1,6 +1,5 @@
 import Fastify from 'fastify';
 import fastifyBetterSqlite3 from '../index.js';
-//import { initDb } from './initDb.js';
 
 const fastifyOpts = {
     logger: true
@@ -12,8 +11,8 @@ try {
     //
     // register the plugin with no options – the db is created in memory
     //
-    const opts = {};
-    fastify.register(fastifyBetterSqlite3, opts);
+    const fastifyBetterSqlite3Opts = {};
+    fastify.register(fastifyBetterSqlite3, fastifyBetterSqlite3Opts);
 
     //
     // declare a route that gets data from the db
@@ -28,6 +27,7 @@ try {
             .get();
 
         reply.send({
+            'message': 'case 1: these results from db created in memory',
             'current date': dt,
             'sqlite version': version
         });

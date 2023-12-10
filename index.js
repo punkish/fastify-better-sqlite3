@@ -1,29 +1,45 @@
 import fp from 'fastify-plugin';
-import Database from 'better-sqlite3';
+import Database_inline from 'better-sqlite3';
+
+const _createDbConnection = (Database, options) => {
+
+    //
+    // If path to db exists, use that else create a db in memory
+    //
+    const file = options.pathToDb
+        ? options.pathToDb
+        : ':memory:';
+
+    const betterSqlite3Opts = options.betterSqlite3Opts || {};
+    return new Database(file, betterSqlite3Opts);
+}
 
 const fastifyBetterSqlite3 = (fastify, options, next) => {
 
     let db;
 
-    // options is a ready made db connection, so use it
-    if (options instanceof Database) {
-        db = options;
+    if (options.class) {
+        const Database_imported = options.class;
+
+        //
+        // options has a ready made db connection, so use it if it is valid
+        //
+        if (options.connection) {
+
+            if (options.connection instanceof Database_imported) {
+                db = options.connection;
+            }
+
+        }
+        else {
+            db = _createDbConnection(Database_imported, options);
+        }
     }
 
-    // create a new db connection using the options passed in
+    // create a new db connection using the inline Database class and the 
+    // options passed in
     else {
-
-        // default db in memory
-        let file = ':memory:';
-
-        // if path to db exists, use that instead of memory
-        if (options.path) {
-            file = options.path;
-        }
-
-        // use the passed in options or the default better-sqlite3 values
-        const betterSqlite3Opts = options.betterSqlite3options || {};
-        db = new Database(file, betterSqlite3Opts);
+        db = _createDbConnection(Database_inline, options)
     }
     
     if (fastify.betterSqlite3) {

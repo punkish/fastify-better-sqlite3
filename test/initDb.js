@@ -1,7 +1,7 @@
 import Database from "better-sqlite3";
 
 export const initDb = () => {
-    const db = new Database('./test/db-ext.sqlite');
+    const db = new Database('./db.sqlite');
 
     let stm = 'CREATE TABLE IF NOT EXISTS t (id INTEGER PRIMARY KEY, txt TEXT)';
     db.prepare(stm).run();
@@ -17,5 +17,8 @@ export const initDb = () => {
         }
     }
     
-    return db;
+    return {
+        "class": Database,
+        "connection": db
+    }
 }

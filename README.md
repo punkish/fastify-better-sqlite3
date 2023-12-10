@@ -15,12 +15,16 @@ Fastify version: ^4.x.x
 
 ## Usage
 
+There are three ways to use the plug-in, and each one is described below in entirety.
+
+## Case 1: db in memory
+
+A db in memory is created using `better-sqlite3` default options
+
 ```js
 import Fastify from 'fastify';
 import fastifyBetterSqlite3 from './plugins/lib/better-sqlite3.js';
-
-// the following is optional, see `opts3` below for an example
-import { initDb } from 'path/to/initDb.js';
+import Database from 'better-sqlite3';
 
 // fastify options, see fastify documentation
 const fastifyOpts = { … };
@@ -28,43 +32,16 @@ const fastifyOpts = { … };
 try {
     const fastify = Fastify(fastifyOpts);
 
-    // connect three-ways
-    //
-    // 1. no options provided: a db in memory is created using `better-sqlite3`
-    //    default options
-    const opts1 = {};
-
-    // 2. provide options as below
-    const opts2 = {
-
-        // if db file doesn't exist, it will be created unless
-        // `betterSqlite3options.fileMustExist: true`
-        path: '/path/to/db.sqlite',
-
-        // The following options are passed on to `better-sqlite3`.
-        // The default values are shown below, and none are required.
-        // Check better-sqlite3 documentation for details.
-        betterSqlite3options: {
-            readonly: false,
-            fileMustExist: false,
-            timeout: 5000,
-            verbose: null
-        }
-    };
-
-    // 3. provide a ready db connection. This may be desirable if custom 
-    //    start-up options are required such as creating a specific db and
-    //    setting desired pragmas, etc. Below, a function called 
-    //    `initDb()` returns a db connection that is passed to the plugin
-    const opts3 = initDb();
+    // provide an empty options object
+    const fastifyBetterSqlite3Opts = {};
 
     //
     // register the plugin
     //
-    fastify.register(fastifyBetterSqlite3, opts1);
+    fastify.register(fastifyBetterSqlite3, fastifyBetterSqlite3Opts);
 
     //
-    // create a route that gets data from the db
+    // use the plugin
     //
     fastify.get('/', function (request, reply) {
         const { dt } = fastify.betterSqlite3
@@ -82,6 +59,101 @@ try {
     });
 
     await fastify.listen({ port: 3010 });
+}
+catch (err) {
+    console.log(err);
+    process.exit(1);
+}
+```
+
+## Case 2: in-line db
+
+A db is created in the same file as the plugin
+
+```js
+import Fastify from 'fastify';
+import fastifyBetterSqlite3 from './plugins/lib/better-sqlite3.js';
+import Database from 'better-sqlite3';
+
+// fastify options, see fastify documentation
+const fastifyOpts = { … };
+
+try {
+    const fastify = Fastify(fastifyOpts);
+
+    // provide fastifyBetterSqlite3Opts
+    const fastifyBetterSqlite3Opts = {
+
+        // The Database class imported above
+        "class": Database,
+
+        // if db file doesn't exist, it will be created unless
+        // `betterSqlite3options.fileMustExist: true`
+        "pathToDb": '/path/to/db.sqlite',
+
+        // The following options are passed on to `better-sqlite3`.
+        // The default values are shown below, and none are required.
+        // Check better-sqlite3 documentation for details.
+        // betterSqlite3options: {
+        //     readonly: false,
+        //     fileMustExist: false,
+        //     timeout: 5000,
+        //     verbose: null
+        // }
+    };
+
+    //
+    // register the plugin
+    //
+    fastify.register(fastifyBetterSqlite3, fastifyBetterSqlite3Opts);
+
+    //
+    // use the plugin as above
+    //
+    
+}
+catch (err) {
+    console.log(err);
+    process.exit(1);
+}
+```
+
+## Case 3: db connection in an external file
+
+A db is created in an external file and passed on to the plugin
+
+```js
+import Fastify from 'fastify';
+import fastifyBetterSqlite3 from './plugins/lib/better-sqlite3.js';
+import { initDb } from 'path/to/initDb.js';
+
+// fastify options, see fastify documentation
+const fastifyOpts = { … };
+
+try {
+    const fastify = Fastify(fastifyOpts);
+
+    const db = initDb();
+
+    // provide fastifyBetterSqlite3Opts
+    const fastifyBetterSqlite3Opts = {
+
+        // The Database class imported from the db objected created by initDb()
+        "class": db.class,
+
+        // db connection
+        "connection": db.connection
+    };
+
+    //
+    // register the plugin
+    //
+    fastify.register(fastifyBetterSqlite3, fastifyBetterSqlite3Opts);
+
+    //
+    // use the plugin as above
+    //
+    
 }
 catch (err) {
     console.log(err);
