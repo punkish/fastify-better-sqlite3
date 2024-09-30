@@ -53,6 +53,6 @@ const fastifyBetterSqlite3 = (fastify, options, next) => {
 }
 
 export default fp(fastifyBetterSqlite3, {
-    fastify: '4.x',
+    fastify: '>= 4.x',
     name: 'fastify-better-sqlite3'
 })
