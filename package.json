@@ -26,10 +26,10 @@
   "homepage": "https://github.com/punkish/fastify-better-sqlite3#readme",
   "dependencies": {
     "better-sqlite3": "^8.4.0",
-    "fastify-plugin": "^4.5.0"
+    "fastify-plugin": "^5.0.1"
   },
   "devDependencies": {
-    "fastify": "^4.17.0"
+    "fastify": "^5.0.0"
   },
   "directories": {
     "test": "test"
