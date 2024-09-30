@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/punkish/fastify-better-sqlite3#readme",
   "dependencies": {
-    "better-sqlite3": "^8.4.0",
+    "better-sqlite3": "^11.3.0",
     "fastify-plugin": "^4.5.0"
   },
   "devDependencies": {
