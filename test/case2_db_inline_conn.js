@@ -29,7 +29,7 @@ try {
         //
         // "connection": db.connection,
 
-        "pathToDb": './db.sqlite',
+        "pathToDb": './test/db.sqlite',
 
         //
         // betterSqlite3Opts not provided, so default better-sqlite3 options 
